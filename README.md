@@ -36,5 +36,5 @@ __verbs__ &mdash; Enable loading of additional HTTP methods
 - Defaults to `get`, `post`, `del`, `put`
 
 ## TODO
-- [ ] Update (create) documentation  
+- [x] Update (create) documentation  
 - [ ] Add build process
