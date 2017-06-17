@@ -13,9 +13,7 @@ import routeLoader from 'restify-route-loader';
 
 const server = restify.createServer();
 
-server.use(routeLoader({
-    server
-}));
+server.use(routeLoader(server));
 
 server.listen(port, () => {});
 ```
