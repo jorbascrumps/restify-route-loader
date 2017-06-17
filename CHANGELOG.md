@@ -1,3 +1,7 @@
+## 2.0.1 (June 17, 2017)
+* Added notice about missing build script and Node v8+ dependency
+* Added missing `main` declaration to `package.json`
+
 ## 2.0.0 (June 17, 2017)
 * Changed API to enable use with Restify's .use()
 * Added changelog
