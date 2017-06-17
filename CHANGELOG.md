@@ -1,4 +1,4 @@
-## 2.0.0 [Unreleased]
+## 2.0.0 (June 17, 2017)
 * Changed API to enable use with Restify's .use()
 * Added changelog
 * Added `verbs` option to allow additional HTTP methods (**note:** must be supported by Restify)
