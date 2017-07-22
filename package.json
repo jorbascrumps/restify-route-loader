@@ -1,9 +1,14 @@
 {
   "name": "restify-route-loader",
-  "version": "2.0.1",
+  "version": "2.1.0-rc3",
   "description": "",
-  "main": "lib/index.js",
+  "main": "dist.js",
+  "files": [
+    "dist.js"
+  ],
   "scripts": {
+    "build": "rollup -c",
+    "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +20,22 @@
   "bugs": {
     "url": "https://github.com/iamchristopher/restify-route-loader/issues"
   },
-  "homepage": "https://github.com/iamchristopher/restify-route-loader#readme"
+  "homepage": "https://github.com/iamchristopher/restify-route-loader#readme",
+  "devDependencies": {
+    "babel-preset-es2015-rollup": "3.0.0",
+    "babel-preset-stage-0": "6.24.1",
+    "rollup": "0.45.2",
+    "rollup-plugin-babel": "2.7.1",
+    "rollup-plugin-commonjs": "8.0.2",
+    "rollup-plugin-node-resolve": "3.0.0"
+  },
+  "dependencies": {
+    "glob": "7.1.2"
+  },
+  "babel": {
+    "presets": [
+      "stage-1",
+      "es2015-rollup"
+    ]
+  }
 }
