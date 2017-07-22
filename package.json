@@ -1,6 +1,6 @@
 {
   "name": "restify-route-loader",
-  "version": "2.1.0-rc3",
+  "version": "2.1.0",
   "description": "",
   "main": "dist.js",
   "files": [
