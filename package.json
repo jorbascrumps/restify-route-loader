@@ -2,7 +2,7 @@
   "name": "restify-route-loader",
   "version": "2.1.0-rc1",
   "description": "",
-  "main": "index.js",
+  "main": "dist.js",
   "scripts": {
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
