@@ -3,6 +3,9 @@
   "version": "2.1.0-rc3",
   "description": "",
   "main": "dist.js",
+  "files": [
+    "dist.js"
+  ],
   "scripts": {
     "build": "rollup -c",
     "prepare": "npm run build",
