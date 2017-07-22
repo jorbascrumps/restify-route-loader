@@ -1,8 +1,6 @@
 # restify-route-loader
 A module to automate route loading for [Restify](https://github.com/restify/node-restify).
 
-__Please note that the current version of this package requires Node v8+ until a build process is added.__
-
 ## Installation
 ```
 npm i restify-route-loader -S
@@ -39,4 +37,4 @@ __verbs__ &mdash; Enable loading of additional HTTP methods
 
 ## TODO
 - [x] Update (create) documentation  
-- [ ] Add build process
+- [x] Add build process
