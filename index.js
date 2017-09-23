@@ -4,7 +4,8 @@ import {
     parse
 } from 'path';
 
-const supportedVerbs = [ 'get', 'post', 'del', 'put' ];
+const DEFAULT_ROUTE_VERSION = '1.0.0';
+const DEFAULT_SUPPORTED_VERBS = [ 'get', 'post', 'del', 'put' ];
 
 export default (
     server = requiredParam('server'),
@@ -14,7 +15,7 @@ export default (
     } = {}
 ) => {
     const acceptedFilenames = [
-        ...supportedVerbs,
+        ...DEFAULT_SUPPORTED_VERBS,
         ...verbs
     ];
 
@@ -51,20 +52,21 @@ function mountResourceForHttpVerb ({
     server,
     file
 } = {}) {
-    return method => {
+    return ({
+        controller,
+        middleware = [],
+        version = DEFAULT_ROUTE_VERSION
+    } = {}) => {
         const httpVerb = file.name;
-        const resourceVersion = method.version;
         const mountPath = file.dir.replace(new RegExp('/_', 'g'), '/:') || '/';
 
         server[httpVerb](
             {
                 path: mountPath,
-                version: resourceVersion
+                version
             },
-            [
-                ...method.middleware || []
-            ],
-            method.controller
+            middleware,
+            controller
         );
     };
 }
