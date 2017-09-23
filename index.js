@@ -20,7 +20,7 @@ export default (
     ];
 
     glob(
-        `**/+(${acceptedFilenames.join('|')}).js`,
+        `**/+(${acceptedFilenames.join('|')})*.js`,
         { cwd: routes },
         (err, files) => files
             .map(mountRouteFromFileLocation({
@@ -57,13 +57,16 @@ function mountResourceForHttpVerb ({
         middleware = [],
         version = DEFAULT_ROUTE_VERSION
     } = {}) => {
-        const httpVerb = file.name;
+        const [
+            httpVerb,
+            fileVersionOverride
+        ] = file.name.split('-');
         const mountPath = file.dir.replace(new RegExp('/_', 'g'), '/:') || '/';
 
         server[httpVerb](
             {
                 path: mountPath,
-                version
+                version: fileVersionOverride || version
             },
             middleware,
             controller
