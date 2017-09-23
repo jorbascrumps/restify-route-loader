@@ -4,6 +4,7 @@ import {
     parse
 } from 'path';
 
+const DEFAULT_ROUTE_VERSION = '1.0.0';
 const supportedVerbs = [ 'get', 'post', 'del', 'put' ];
 
 export default (
@@ -54,7 +55,7 @@ function mountResourceForHttpVerb ({
     return ({
         controller,
         middleware = [],
-        version = '1.0.0'
+        version = DEFAULT_ROUTE_VERSION
     } = {}) => {
         const httpVerb = file.name;
         const mountPath = file.dir.replace(new RegExp('/_', 'g'), '/:') || '/';
