@@ -51,20 +51,21 @@ function mountResourceForHttpVerb ({
     server,
     file
 } = {}) {
-    return method => {
+    return ({
+        controller,
+        middleware = [],
+        version = '1.0.0'
+    } = {}) => {
         const httpVerb = file.name;
-        const resourceVersion = method.version;
         const mountPath = file.dir.replace(new RegExp('/_', 'g'), '/:') || '/';
 
         server[httpVerb](
             {
                 path: mountPath,
-                version: resourceVersion
+                version
             },
-            [
-                ...method.middleware || []
-            ],
-            method.controller
+            middleware,
+            controller
         );
     };
 }
