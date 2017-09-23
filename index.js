@@ -5,7 +5,7 @@ import {
 } from 'path';
 
 const DEFAULT_ROUTE_VERSION = '1.0.0';
-const supportedVerbs = [ 'get', 'post', 'del', 'put' ];
+const DEFAULT_SUPPORTED_VERBS = [ 'get', 'post', 'del', 'put' ];
 
 export default (
     server = requiredParam('server'),
@@ -15,7 +15,7 @@ export default (
     } = {}
 ) => {
     const acceptedFilenames = [
-        ...supportedVerbs,
+        ...DEFAULT_SUPPORTED_VERBS,
         ...verbs
     ];
 
