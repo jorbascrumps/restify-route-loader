@@ -43,7 +43,7 @@ exports.default = [
   {
     version: "1.0.0",
     controller: function(req, res, next) {
-      return res.send('Hello World)
+      return res.send('Hello World')
     }
   }
 ]
