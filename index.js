@@ -3,6 +3,7 @@ import {
     join,
     parse
 } from 'path';
+import semver from 'semver';
 
 const DEFAULT_ROUTE_VERSION = '1.0.0';
 const DEFAULT_SUPPORTED_VERBS = [ 'get', 'post', 'del', 'put' ];
@@ -20,7 +21,7 @@ export default (
     ];
 
     glob(
-        `**/+(${acceptedFilenames.join('|')}).js`,
+        `**/+(${acceptedFilenames.join('|')})*.js`,
         { cwd: routes },
         (err, files) => files
             .map(mountRouteFromFileLocation({
@@ -57,13 +58,16 @@ function mountResourceForHttpVerb ({
         middleware = [],
         version = DEFAULT_ROUTE_VERSION
     } = {}) => {
-        const httpVerb = file.name;
+        const [
+            httpVerb,
+            fileVersionOverride
+        ] = file.name.split('-');
         const mountPath = file.dir.replace(new RegExp('/_', 'g'), '/:') || '/';
 
         server[httpVerb](
             {
                 path: mountPath,
-                version
+                version: semver.valid(fileVersionOverride) ? fileVersionOverride : version
             },
             middleware,
             controller
