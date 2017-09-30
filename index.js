@@ -4,6 +4,7 @@ import {
     parse
 } from 'path';
 import semver from 'semver';
+import 'colors';
 
 const DEFAULT_ROUTE_VERSION = '1.0.0';
 const DEFAULT_SUPPORTED_VERBS = [ 'get', 'post', 'del', 'put' ];
@@ -39,7 +40,12 @@ function mountRouteFromFileLocation ({
 } = {}) {
     return file => {
         const parsedFile = parse(file);
-        const routeMethods = require(join(folder, file)).default;
+        const requirePath = join(folder, file);
+        const routeMethods = require(requirePath).default;
+
+        if (typeof routeMethods === 'undefined') {
+            return console.log(`Route file skipped! No export was found at ${requirePath}`.yellow);
+        }
 
         routeMethods
             .forEach(mountResourceForHttpVerb({
