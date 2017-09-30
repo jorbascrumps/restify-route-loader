@@ -1,3 +1,8 @@
+## 2.2.0 (September 30, 2017)
+* Added default route version number (1.0.0)
+* Added explicit file version via file name (ie, get-1.0.0.js)
+* Added warning when attempting to load empty route file
+
 ## 2.1.0 (July 21, 2017)
 * Added `npm prepare` build step using [rollup](https://github.com/rollup/rollup)
 

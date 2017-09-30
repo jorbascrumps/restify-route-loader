@@ -3,8 +3,11 @@ import {
     join,
     parse
 } from 'path';
+import semver from 'semver';
+import 'colors';
 
-const supportedVerbs = [ 'get', 'post', 'del', 'put' ];
+const DEFAULT_ROUTE_VERSION = '1.0.0';
+const DEFAULT_SUPPORTED_VERBS = [ 'get', 'post', 'del', 'put' ];
 
 export default (
     server = requiredParam('server'),
@@ -14,12 +17,12 @@ export default (
     } = {}
 ) => {
     const acceptedFilenames = [
-        ...supportedVerbs,
+        ...DEFAULT_SUPPORTED_VERBS,
         ...verbs
     ];
 
     glob(
-        `**/+(${acceptedFilenames.join('|')}).js`,
+        `**/+(${acceptedFilenames.join('|')})*.js`,
         { cwd: routes },
         (err, files) => files
             .map(mountRouteFromFileLocation({
@@ -37,7 +40,12 @@ function mountRouteFromFileLocation ({
 } = {}) {
     return file => {
         const parsedFile = parse(file);
-        const routeMethods = require(join(folder, file)).default;
+        const requirePath = join(folder, file);
+        const routeMethods = require(requirePath).default;
+
+        if (typeof routeMethods === 'undefined') {
+            return console.log(`Route file skipped! No export was found at ${requirePath}`.yellow);
+        }
 
         routeMethods
             .forEach(mountResourceForHttpVerb({
@@ -51,20 +59,24 @@ function mountResourceForHttpVerb ({
     server,
     file
 } = {}) {
-    return method => {
-        const httpVerb = file.name;
-        const resourceVersion = method.version;
+    return ({
+        controller,
+        middleware = [],
+        version = DEFAULT_ROUTE_VERSION
+    } = {}) => {
+        const [
+            httpVerb,
+            fileVersionOverride
+        ] = file.name.split('-');
         const mountPath = file.dir.replace(new RegExp('/_', 'g'), '/:') || '/';
 
         server[httpVerb](
             {
                 path: mountPath,
-                version: resourceVersion
+                version: semver.valid(fileVersionOverride) ? fileVersionOverride : version
             },
-            [
-                ...method.middleware || []
-            ],
-            method.controller
+            middleware,
+            controller
         );
     };
 }
