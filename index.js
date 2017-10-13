@@ -60,6 +60,12 @@ function mountRouteFromFileLocation ({
                 .forEach(mount);
         }
 
+        if (typeof routeCollection === 'function') {
+            return mount({
+                controller: routeCollection
+            });
+        }
+
         return mount(routeCollection || routeMethods);
     };
 }
