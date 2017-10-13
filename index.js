@@ -1,9 +1,3 @@
-
-
-
-
-
-
 import glob from 'glob';
 import {
     join,
