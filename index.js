@@ -41,17 +41,32 @@ function mountRouteFromFileLocation ({
     return file => {
         const parsedFile = parse(file);
         const requirePath = join(folder, file);
-        const routeMethods = require(requirePath).default;
+        const {
+            default: routeCollection,
+            ...routeMethods
+        } = require(requirePath);
 
-        if (typeof routeMethods === 'undefined') {
+        if (typeof routeCollection === 'undefined' && Object.keys(routeMethods).length === 0) {
             return console.log(`Route file skipped! No export was found at ${requirePath}`.yellow);
         }
 
-        routeMethods
-            .forEach(mountResourceForHttpVerb({
-                server,
-                file: parsedFile
-            }));
+        const mount = mountResourceForHttpVerb({
+            server,
+            file: parsedFile
+        });
+
+        if (Array.isArray(routeCollection)) {
+            return routeCollection
+                .forEach(mount);
+        }
+
+        if (typeof routeCollection === 'function') {
+            return mount({
+                controller: routeCollection
+            });
+        }
+
+        return mount(routeCollection || routeMethods);
     };
 }
 
