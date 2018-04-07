@@ -17,6 +17,38 @@ server.use(routeLoader(server));
 
 server.listen(port, () => {});
 ```
+## Folder Structure
+
+```
+-/routes
+--get.js
+--/aboutus
+---get.js
+---post.js
+```
+
+```
+-/routes
+--get-1.0.0.js
+--get-1.1.0.js
+--/aboutus
+---get.js
+---post.js
+```
+
+## File Setup
+If the file is just the verb without the version, include the version within the file
+```
+exports.default = [
+  {
+    version: "1.0.0",
+    controller: function(req, res, next) {
+      return res.send('Hello World')
+    }
+  }
+]
+```
+
 
 ## Configuration
 The module accepts a configuration object as an optional second parameter.
