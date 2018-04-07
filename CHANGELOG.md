@@ -1,3 +1,6 @@
+## 2.3.0 (April 7, 2018)
+* Changed routes can now export a single function as a controller
+
 ## 2.2.0 (September 30, 2017)
 * Added default route version number (1.0.0)
 * Added explicit file version via file name (ie, get-1.0.0.js)
