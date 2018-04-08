@@ -1,3 +1,6 @@
+## 2.3.1 (April 7, 2017)
+* Fixed a compatibility issue with Restify@7.0.0 requiring a forward slash on route paths (see [migration guide](http://restify.com/docs/6to7/#path-must-to-start-with-) for details)
+
 ## 2.3.0 (April 7, 2018)
 * Changed routes can now export a single function as a controller
 
