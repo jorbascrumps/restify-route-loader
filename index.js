@@ -87,7 +87,7 @@ function mountResourceForHttpVerb ({
 
         server[httpVerb](
             {
-                path: mountPath,
+                path: `/${mountPath}`,
                 version: semver.valid(fileVersionOverride) ? fileVersionOverride : version
             },
             middleware,
