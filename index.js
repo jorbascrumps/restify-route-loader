@@ -43,6 +43,8 @@ function mountRouteFromFileLocation ({
         const requirePath = join(folder, file);
         const {
             default: routeCollection,
+            middleware,
+            version,
             ...routeMethods
         } = require(requirePath);
 
@@ -62,7 +64,9 @@ function mountRouteFromFileLocation ({
 
         if (typeof routeCollection === 'function') {
             return mount({
-                controller: routeCollection
+                controller: routeCollection,
+                middleware,
+                version
             });
         }
 
