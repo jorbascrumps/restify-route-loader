@@ -13,8 +13,9 @@ export default (
     server = requiredParam('server'),
     {
         routes = join(process.cwd(), 'routes'),
-        verbs = []
-    } = {}
+        verbs = [],
+    } = {},
+    callback = () => {}
 ) => {
     const acceptedFilenames = [
         ...DEFAULT_SUPPORTED_VERBS,
@@ -24,11 +25,19 @@ export default (
     glob(
         `**/+(${acceptedFilenames.join('|')})*.js`,
         { cwd: routes },
-        (err, files) => files
-            .map(mountRouteFromFileLocation({
-                server,
-                folder: routes
-            }))
+        (err, files) => {
+            if (err) {
+                return callback(err);
+            }
+
+            files
+                .map(mountRouteFromFileLocation({
+                    server,
+                    folder: routes
+                }));
+
+            return callback(null, server);
+        }
     );
 
     return (req, res, next) => next();
