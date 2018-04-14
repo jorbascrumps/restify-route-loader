@@ -27,3 +27,17 @@ describe('Route Loader', () => {
 
     it('should require a controller');
 });
+
+describe('Route Defaults', () => {
+    let defaultRoute;
+    beforeEach(done =>
+        server.use(module(server, undefined, (err, server) => {
+            defaultRoute = server.router.getRoutes().getdefaults;
+            done();
+        }))
+    );
+
+    it('should be v1.0.0', () => {
+        should.equal(defaultRoute.spec.version, '1.0.0');
+    });
+});
