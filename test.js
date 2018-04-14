@@ -22,4 +22,6 @@ describe('Route Loader', () => {
             }))
         );
     });
+
+    it('should require the routes folder to exist');
 });
