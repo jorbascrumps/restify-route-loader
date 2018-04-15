@@ -2,7 +2,7 @@ const should = require('should');
 const restify = require('restify');
 const path = require('path');
 
-const module = require('./index').default;
+const module = require('../index').default;
 
 let server;
 describe('Route Loader', () => {
