@@ -33,9 +33,12 @@ describe('Route Options', () => {
 
     describe('Defaults', () => {
         let defaultRoute;
+        const options = {
+            routes: path.join(__dirname, 'routes', 'defaults')
+        };
         beforeEach(done =>
-            server.use(module(server, undefined, (err, server) => {
-                defaultRoute = server.router.getRoutes().getdefaults;
+            server.use(module(server, options, (err, server) => {
+                defaultRoute = server.router.getRoutes().get;
                 done();
             }))
         );
