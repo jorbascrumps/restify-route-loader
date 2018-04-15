@@ -1,4 +1,4 @@
-## 2.4.0 (In development)
+## 2.4.0 (April 15, 2018)
 * Added support for version and middleware declarations for routes with controllers exported as `default`
 * Added optional callback parameter that returns the modified server instance
 * Added tests :tada:
