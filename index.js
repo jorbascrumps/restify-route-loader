@@ -96,12 +96,14 @@ function mountResourceForHttpVerb ({
             httpVerb,
             fileVersionOverride
         ] = file.name.split('-');
-        const mountPath = file.dir.replace(new RegExp('/_', 'g'), '/:') || '/';
+        const mountPath = file.dir.replace(new RegExp('/_', 'g'), '/:');
 
         server[httpVerb](
             {
                 path: `/${mountPath}`,
-                version: semver.valid(fileVersionOverride) ? fileVersionOverride : version
+                version: semver.valid(fileVersionOverride)
+                    ?   fileVersionOverride
+                    :   version
             },
             middleware,
             controller
