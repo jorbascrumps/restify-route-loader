@@ -26,6 +26,8 @@ describe('Route Loader', () => {
     it('should require the routes folder to exist');
 
     it('should require a controller');
+
+    it('should parse route parameters');
 });
 
 describe('Route Options', () => {
