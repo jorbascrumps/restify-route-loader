@@ -51,20 +51,22 @@ describe('Route Options', () => {
     });
 
     describe('Overrides', () => {
-        let verbsRoute;
-        const options = {
-            routes: path.join(__dirname, 'routes', 'verbs'),
-            verbs: [ 'patch' ]
-        };
-        beforeEach(done =>
-            server.use(module(server, options, (err, server) => {
-                verbsRoute = server.router.getRoutes().patch;
-                done();
-            }))
-        );
+        describe('Verbs', () => {
+            let verbsRoute;
+            const options = {
+                routes: path.join(__dirname, 'routes', 'verbs'),
+                verbs: [ 'patch' ],
+            };
+            beforeEach(done =>
+                server.use(module(server, options, (err, server) => {
+                    verbsRoute = server.router.getRoutes().patch;
+                    done();
+                }))
+            );
 
-        it('should accept additional HTTP verbs', () => {
-            should.equal(verbsRoute.spec.method, 'PATCH');
+            it('should accept additional HTTP verbs', () => {
+                should.equal(verbsRoute.spec.method, 'PATCH');
+            });
         });
     });
 });
