@@ -14,6 +14,7 @@ export default (
     {
         routes = join(process.cwd(), 'routes'),
         verbs = [],
+        globalMiddleware = []
     } = {},
     callback = () => {}
 ) => {
@@ -33,7 +34,8 @@ export default (
             files
                 .map(mountRouteFromFileLocation({
                     server,
-                    folder: routes
+                    folder: routes,
+                    globalMiddleware
                 }));
 
             return callback(null, server);
@@ -45,14 +47,15 @@ export default (
 
 function mountRouteFromFileLocation ({
     server,
-    folder
+    folder,
+    globalMiddleware
 } = {}) {
     return file => {
         const parsedFile = parse(file);
         const requirePath = join(folder, file);
         const {
             default: routeCollection,
-            middleware,
+            middleware: routeMiddleware = [],
             version,
             ...routeMethods
         } = require(requirePath);
@@ -71,10 +74,17 @@ function mountRouteFromFileLocation ({
                 .forEach(mount);
         }
 
+        const routeMiddlewares = Array.isArray(routeMiddleware)
+            ?   routeMiddleware
+            :   [ routeMiddleware ];
+        let globalMiddlewares = Array.isArray(globalMiddleware)
+            ?   globalMiddleware
+            :   [ globalMiddleware ];
+
         if (typeof routeCollection === 'function') {
             return mount({
                 controller: routeCollection,
-                middleware,
+                middleware: [ ...globalMiddlewares, ...routeMiddlewares ],
                 version
             });
         }

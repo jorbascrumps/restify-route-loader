@@ -51,20 +51,78 @@ describe('Route Options', () => {
     });
 
     describe('Overrides', () => {
-        let verbsRoute;
-        const options = {
-            routes: path.join(__dirname, 'routes', 'verbs'),
-            verbs: [ 'patch' ]
-        };
-        beforeEach(done =>
-            server.use(module(server, options, (err, server) => {
-                verbsRoute = server.router.getRoutes().patch;
-                done();
-            }))
-        );
+        describe('Verbs', () => {
+            const options = {
+                routes: path.join(__dirname, 'routes', 'verbs'),
+                verbs: [ 'patch' ]
+            };
 
-        it('should accept additional HTTP verbs', () => {
-            should.equal(verbsRoute.spec.method, 'PATCH');
+            it('should accept additional HTTP verbs', done => {
+                server.use(module(server, options, (err, server) => {
+                    const verbsRoute = server.router.getRoutes().patch;
+
+                    should.equal(verbsRoute.spec.method, 'PATCH');
+                    done();
+                }))
+            });
+        });
+
+        describe('Middleware', () => {
+            const options = {
+                routes: path.join(__dirname, 'routes', 'middleware')
+            };
+
+            it('should accept single route-level middleware', done => {
+                server.use(module(server, options, (err, server) => {
+                    const routeChain =  server.router.getRoutes().get.chain;
+
+                    should.equal(routeChain.getHandlers()[0]._name, 'middleware');
+                    should.equal(routeChain.getHandlers()[1]._name, 'controller');
+                    done();
+                }));
+            });
+
+            it('should accept multiple route-level middlewares', done => {
+                server.use(module(server, options, (err, server) => {
+                    const routeChain =  server.router.getRoutes().post.chain;
+
+                    should.equal(routeChain.getHandlers()[0]._name, 'middlewareOne');
+                    should.equal(routeChain.getHandlers()[1]._name, 'middlewareTwo');
+                    should.equal(routeChain.getHandlers()[2]._name, 'controller');
+                    done();
+                }));
+            });
+
+            it('should accept single global middleware', done => {
+                const middlewareOptions = {
+                    ...options,
+                    globalMiddleware: function globalMiddleware () {}
+                };
+
+                server.use(module(server, middlewareOptions, (err, server) => {
+                    const routeChain =  server.router.getRoutes().get.chain;
+
+                    should.equal(routeChain.getHandlers()[0]._name, 'globalMiddleware');
+                    should.equal(routeChain.count(), 3);
+                    done();
+                }));
+            });
+
+            it('should accept multiple global middleware', done => {
+                const middlewareOptions = {
+                    ...options,
+                    globalMiddleware: [ function globalOne () {}, function globalTwo () {} ]
+                };
+
+                server.use(module(server, middlewareOptions, (err, server) => {
+                    const routeChain =  server.router.getRoutes().get.chain;
+
+                    should.equal(routeChain.getHandlers()[0]._name, 'globalOne');
+                    should.equal(routeChain.getHandlers()[1]._name, 'globalTwo');
+                    should.equal(routeChain.count(), 4);
+                    done();
+                }));
+            });
         });
     });
 });
