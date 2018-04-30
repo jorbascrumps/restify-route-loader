@@ -25,9 +25,33 @@ describe('Route Loader', () => {
 
     it('should require the routes folder to exist');
 
-    it('should require a controller');
-
     it('should parse route parameters');
+});
+
+describe('Controller Types', () => {
+    beforeEach(() => server = restify.createServer());
+
+    const options = {
+        routes: path.join(__dirname, 'routes', 'controller')
+    };
+
+    it('should load a single controller', done => {
+        server.use(module(server, options, (err, server) => {
+            const controllerRoute = server.router.getRoutes().get;
+
+            should.equal(controllerRoute.chain.count(), 1);
+            done();
+        }));
+    });
+
+    it('should load multiple controllers', done => {
+        server.use(module(server, options, (err, server) => {
+            const controllerRoute = server.router.getRoutes().post;
+
+            should.equal(controllerRoute.chain.count(), 2);
+            done();
+        }));
+    });
 });
 
 describe('Route Options', () => {
