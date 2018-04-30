@@ -25,9 +25,37 @@ describe('Route Loader', () => {
 
     it('should require the routes folder to exist');
 
-    it('should require a controller');
-
     it('should parse route parameters');
+});
+
+describe('Controller Types', () => {
+    beforeEach(() => server = restify.createServer());
+
+    const options = {
+        routes: path.join(__dirname, 'routes', 'controller')
+    };
+
+    it('should load a single controller', done => {
+        server.use(module(server, options, (err, server) => {
+            const defaultControllerRoute = server.router.getRoutes().get;
+            const namedControllerRoute = server.router.getRoutes().delete;
+
+            should.equal(defaultControllerRoute.chain.count(), 1);
+            should.equal(namedControllerRoute.chain.count(), 1);
+            done();
+        }));
+    });
+
+    it('should load multiple controllers', done => {
+        server.use(module(server, options, (err, server) => {
+            const defaultControllerRoute = server.router.getRoutes().post;
+            const namedControllerRoute = server.router.getRoutes().post;
+
+            should.equal(defaultControllerRoute.chain.count(), 2);
+            should.equal(namedControllerRoute.chain.count(), 2);
+            done();
+        }));
+    });
 });
 
 describe('Route Options', () => {
