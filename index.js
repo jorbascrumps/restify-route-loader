@@ -69,11 +69,6 @@ function mountRouteFromFileLocation ({
             file: parsedFile
         });
 
-        if (Array.isArray(routeCollection)) {
-            return routeCollection
-                .forEach(mount);
-        }
-
         const routeMiddlewares = Array.isArray(routeMiddleware)
             ?   routeMiddleware
             :   [ routeMiddleware ];
@@ -81,7 +76,7 @@ function mountRouteFromFileLocation ({
             ?   globalMiddleware
             :   [ globalMiddleware ];
 
-        if (typeof routeCollection === 'function') {
+        if (typeof routeCollection === 'function' || Array.isArray(routeCollection)) {
             return mount({
                 controller: routeCollection,
                 middleware: [ ...globalMiddlewares, ...routeMiddlewares ],
