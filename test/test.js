@@ -37,18 +37,22 @@ describe('Controller Types', () => {
 
     it('should load a single controller', done => {
         server.use(module(server, options, (err, server) => {
-            const controllerRoute = server.router.getRoutes().get;
+            const defaultControllerRoute = server.router.getRoutes().get;
+            const namedControllerRoute = server.router.getRoutes().delete;
 
-            should.equal(controllerRoute.chain.count(), 1);
+            should.equal(defaultControllerRoute.chain.count(), 1);
+            should.equal(namedControllerRoute.chain.count(), 1);
             done();
         }));
     });
 
     it('should load multiple controllers', done => {
         server.use(module(server, options, (err, server) => {
-            const controllerRoute = server.router.getRoutes().post;
+            const defaultControllerRoute = server.router.getRoutes().post;
+            const namedControllerRoute = server.router.getRoutes().post;
 
-            should.equal(controllerRoute.chain.count(), 2);
+            should.equal(defaultControllerRoute.chain.count(), 2);
+            should.equal(namedControllerRoute.chain.count(), 2);
             done();
         }));
     });

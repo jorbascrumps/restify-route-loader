@@ -1,3 +1,3 @@
-export default function controller (req, res) {
+export default function (req, res) {
     return res.send('Single');
 }
