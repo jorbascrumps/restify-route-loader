@@ -54,13 +54,13 @@ function mountRouteFromFileLocation ({
         const parsedFile = parse(file);
         const requirePath = join(folder, file);
         const {
-            default: routeCollection,
             middleware: routeMiddleware = [],
             version,
-            ...routeMethods
+            controller,
+            default: routeCollection = controller,
         } = require(requirePath);
 
-        if (typeof routeCollection === 'undefined' && Object.keys(routeMethods).length === 0) {
+        if (typeof routeCollection === 'undefined') {
             return console.log(`Route file skipped! No export was found at ${requirePath}`.yellow);
         }
 
@@ -69,22 +69,21 @@ function mountRouteFromFileLocation ({
             file: parsedFile
         });
 
+        const routeControllers = Array.isArray(routeCollection)
+            ?   routeCollection
+            :   [ routeCollection ];
         const routeMiddlewares = Array.isArray(routeMiddleware)
             ?   routeMiddleware
             :   [ routeMiddleware ];
-        let globalMiddlewares = Array.isArray(globalMiddleware)
+        const globalMiddlewares = Array.isArray(globalMiddleware)
             ?   globalMiddleware
             :   [ globalMiddleware ];
 
-        if (typeof routeCollection === 'function' || Array.isArray(routeCollection)) {
-            return mount({
-                controller: routeCollection,
-                middleware: [ ...globalMiddlewares, ...routeMiddlewares ],
-                version
-            });
-        }
-
-        return mount(routeCollection || routeMethods);
+        return mount({
+            controller: routeControllers,
+            middleware: [ ...globalMiddlewares, ...routeMiddlewares ],
+            version
+        });
     };
 }
 
@@ -103,15 +102,15 @@ function mountResourceForHttpVerb ({
         ] = file.name.split('-');
         const mountPath = file.dir.replace(new RegExp('/_', 'g'), '/:');
 
-        server[httpVerb](
+        return server[httpVerb](
             {
                 path: `/${mountPath}`,
                 version: semver.valid(fileVersionOverride)
                     ?   fileVersionOverride
                     :   version
             },
-            middleware,
-            controller
+            ...middleware,
+            ...controller
         );
     };
 }
