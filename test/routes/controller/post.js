@@ -1,8 +1,8 @@
 export default [
-    function controllerOne (req, res) {
+    function namedController (req, res) {
         return res.send('Controller One');
     },
-    function controllerTwo (req, res) {
+    function (req, res) {
         return res.send('Controller Two');
     }
 ];

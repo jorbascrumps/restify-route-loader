@@ -48,11 +48,13 @@ describe('Controller Types', () => {
 
     it('should load multiple controllers', done => {
         server.use(module(server, options, (err, server) => {
-            const defaultControllerRoute = server.router.getRoutes().post;
-            const namedControllerRoute = server.router.getRoutes().post;
+            const [
+                handlerOne,
+                handlerTwo
+            ] = server.router.getRoutes().post.chain.getHandlers();
 
-            should.equal(defaultControllerRoute.chain.count(), 2);
-            should.equal(namedControllerRoute.chain.count(), 2);
+            should.equal(handlerOne._name, 'namedController', 'Named controller');
+            should.equal(handlerTwo._name, 'handler-1', 'Unnamed controller');
             done();
         }));
     });
