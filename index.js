@@ -102,7 +102,7 @@ function mountResourceForHttpVerb ({
             fileVersionOverride
         ] = file.name.split('-');
         const mountPath = file.dir.replace(new RegExp('/_', 'g'), '/:');
-        
+
         return server[httpVerb](
             {
                 path: `/${mountPath}`,
