@@ -24,6 +24,10 @@ describe('Route Loader', () => {
     });
 
     it('should load static route before a dynamic route', done => {
+        const options = {
+            routes: path.join(__dirname, 'routes', 'controller')
+        };
+        
         server.use(module(server, options, (err, server) => {
             const routes = Object.keys(server.router.getRoutes());
 
