@@ -31,7 +31,8 @@ export default (
                 return callback(err);
             }
 
-            files
+                files
+                .sort((a, b)=>Math.sign((a.match(/_/g)||[]).length - (b.match(/_/g)||[]).length))
                 .map(mountRouteFromFileLocation({
                     server,
                     folder: routes,
@@ -101,7 +102,7 @@ function mountResourceForHttpVerb ({
             fileVersionOverride
         ] = file.name.split('-');
         const mountPath = file.dir.replace(new RegExp('/_', 'g'), '/:');
-
+        
         return server[httpVerb](
             {
                 path: `/${mountPath}`,
