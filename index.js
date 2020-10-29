@@ -32,7 +32,7 @@ export default (
             }
 
                 files
-                .sort((a, b)=>Math.sign((a.match(/_/g)||[]).length - (b.match(/_/g)||[]).length))
+                .sort((a, b)=>(a.match(/_/g)||[]).length - (b.match(/_/g)||[]).length)
                 .map(mountRouteFromFileLocation({
                     server,
                     folder: routes,
