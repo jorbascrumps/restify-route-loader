@@ -1,3 +1,8 @@
-export default function (req, res) {
-    return res.send('Single');
-}
+export default [
+    {
+        version: '1.0.0',
+        async controller(req, res, next) {
+            res.send('KPI API');
+        }
+    }
+];
