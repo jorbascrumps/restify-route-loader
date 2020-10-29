@@ -27,7 +27,7 @@ describe('Route Loader', () => {
         const options = {
             routes: path.join(__dirname, 'routes', 'controller')
         };
-        
+
         server.use(module(server, options, (err, server) => {
             const routes = Object.keys(server.router.getRoutes());
 
@@ -97,6 +97,23 @@ describe('Route Options', () => {
 
         it('should be v1.0.0', () => {
             should.equal(defaultRoute.spec.version, '1.0.0');
+        });
+    });
+
+    describe('Versioning', () => {
+        let defaultRoute;
+        const options = {
+            routes: path.join(__dirname, 'routes', 'versioning')
+        };
+        beforeEach(done =>
+            server.use(module(server, options, (err, server) => {
+                defaultRoute = server.router.getRoutes().get;
+                done();
+            }))
+        );
+
+        it('should be v2.0.0', () => {
+            should.equal(defaultRoute.spec.version, '2.0.0');
         });
     });
 
