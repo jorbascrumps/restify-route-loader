@@ -101,19 +101,26 @@ describe('Route Options', () => {
     });
 
     describe('Versioning', () => {
-        let defaultRoute;
+        let getRoute;
+        let postRoute;
         const options = {
             routes: path.join(__dirname, 'routes', 'versioning')
         };
+
         beforeEach(done =>
             server.use(module(server, options, (err, server) => {
-                defaultRoute = server.router.getRoutes().get;
+                getRoute = server.router.getRoutes().get;
+                postRoute = server.router.getRoutes().post;
                 done();
             }))
         );
 
         it('should be v2.0.0', () => {
-            should.equal(defaultRoute.spec.version, '2.0.0');
+            should.equal(getRoute.spec.version, '2.0.0');
+        });
+
+        it('should be v2.0.0', () => {
+            should.equal(postRoute.spec.version, '2.0.0');
         });
     });
 
