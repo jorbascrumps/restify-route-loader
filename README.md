@@ -37,16 +37,17 @@ server.listen(port, () => {});
 ```
 
 ## File Setup
-If the file is just the verb without the version, include the version within the file
-```
-exports.default = [
-  {
-    version: "1.0.0",
-    controller: function(req, res, next) {
-      return res.send('Hello World')
+If the file is just the verb without the version, include the version within the file.
+
+```js
+export default [
+    {
+        version: '1.0.0',
+        controller: function (req, res, next) {
+            return res.send('Hello World');
+        }
     }
-  }
-]
+];
 ```
 
 

@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iamchristopher/restify-route-loader.git"
+    "url": "git+https://github.com/jorbascrumps/restify-route-loader.git"
   },
-  "author": "iamchristopher",
+  "author": "jorbascrumps",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/iamchristopher/restify-route-loader/issues"
+    "url": "https://github.com/jorbascrumps/restify-route-loader/issues"
   },
-  "homepage": "https://github.com/iamchristopher/restify-route-loader#readme",
+  "homepage": "https://github.com/jorbascrumps/restify-route-loader",
   "devDependencies": {
     "babel-core": "6.26.0",
     "babel-plugin-transform-runtime": "6.23.0",
@@ -28,7 +28,7 @@
     "babel-preset-es2015-rollup": "3.0.0",
     "babel-preset-stage-0": "6.24.1",
     "mocha": "5.0.5",
-    "restify": "7.2.1",
+    "restify": "8.5.1",
     "rollup": "0.50.0",
     "rollup-plugin-babel": "3.0.2",
     "rollup-plugin-commonjs": "8.2.1",
