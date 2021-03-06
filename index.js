@@ -31,7 +31,8 @@ export default (
                 return callback(err);
             }
 
-            files
+                files
+                .sort((a, b)=>(a.match(/_/g)||[]).length - (b.match(/_/g)||[]).length)
                 .map(mountRouteFromFileLocation({
                     server,
                     folder: routes,

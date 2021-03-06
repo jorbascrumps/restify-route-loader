@@ -23,6 +23,26 @@ describe('Route Loader', () => {
         );
     });
 
+    it('should load static route before a dynamic route', done => {
+        const options = {
+            routes: path.join(__dirname, 'routes', 'controller')
+        };
+
+        server.use(module(server, options, (err, server) => {
+            const routes = Object.keys(server.router.getRoutes());
+
+            const staticRoute = 'getteststatic';
+            const dynamicRoute = 'gettestdynamic';
+            const dynamicRouteLevelTwo = 'gettestdynamicdynamicnestedtwo';
+            const staticRouteLevelTwo = 'gettestdynamicstaticnestedtwo';
+
+            should.equal(routes.indexOf(staticRoute) < routes.indexOf(dynamicRoute), true);
+            should.equal(routes.indexOf(staticRouteLevelTwo) < routes.indexOf(dynamicRouteLevelTwo),true)
+
+            done();
+        }));
+    });
+
     it('should require the routes folder to exist');
 
     it('should parse route parameters');
